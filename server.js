@@ -3,7 +3,7 @@ var multer  = require('multer');
  
 var app = express();
 
-app.post('/upload', multer({dest: './uploads/'}).single('file'), function(req, res){
+app.post('/get-file-size', multer({dest: './uploads/'}).single('file'), function(req, res){
 	console.log(req.file);
 	res.send({size: req.file.size});
 });
