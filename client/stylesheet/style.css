@@ -1,0 +1,10 @@
+body {
+    background: #ffffcc;
+    margin: 0 2%;
+    color: #33334d;
+    font-family: 'PT Serif', serif;
+}
+.header {
+    font-family: 'Russo One', sans-serif;
+    text-align: center;
+}

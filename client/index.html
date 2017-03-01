@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>File Metadata Microservice</title>
+        <meta name="author" content="Abdulah Hamzic">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=PT+Serif|Russo+One" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="stylesheet/style.css"> 
+    </head>
+    <body>
+        <h1 class="header">
+             Image Search Abstraction Layer
+        </h1>
+        <p>Submit a file to view its filesize.</p>
+        <form action="/get-file-size" method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <input type="submit"/>
+        </form>
+    </body>
+</html>

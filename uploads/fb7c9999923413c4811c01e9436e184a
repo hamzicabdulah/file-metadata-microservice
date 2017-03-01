@@ -1,0 +1,22 @@
+var url;
+var searchText;
+var funct = function() {
+	searchText = $('.search').val();
+	url = "https://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=" + searchText + "&limit=10&callback=?";
+	$.getJSON(url, function(json){
+		if (!json[1][0] || json[1][0] == ""){
+			$('.articles').remove();
+			$('form').after("<section class='articles' style='display:none'><div class='word article'>" + json[0] + "</div><br><div class='noResult'>No results found. Try again!</div></section>");
+			$('.articles').fadeIn('slow');
+		}
+		else {
+			$('.articles').remove();
+			$('form').after("<section class='articles' style='display:none'><div class='word article'>" + json[0] + "</div></articles>");
+			for (var i = 0; i < json[1].length; i++){
+				$('.article:last').after("<a class='article' target='_blank' href='" + json[3][i] + "'><div class='realDiv'><span class='header'>" + json[1][i] + "</span><br>" + json[2][i] + "</div></a><br>");
+			}
+			$('.articles').fadeIn('slow');
+		}
+	})
+}
+

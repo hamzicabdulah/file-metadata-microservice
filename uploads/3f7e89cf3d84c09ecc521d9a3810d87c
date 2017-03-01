@@ -1,0 +1,174 @@
+var list = ['МАТКА', 'ЕРГЕН', 'ПЕДЕР', 'ПУТКА', 'ШУНДЕ', 'МАМКА', 'ЈАКНА', 'ГУМНО', 'МОЗОК', 'КЕПЕЦ', 'КАВГА', 'РЕЗБА', 'ЧАМЕЦ', 'ТАЈНА', 'ТОРТА', 'ТОРЗО', 'УСТАВ', 'СПУСТ', 'ИЗРОД', 'ОБЛИК', 'ИКОНА', 'ОКЛОП', 'ОРДЕН', 'ОБРАЧ', 'ОГРЕВ', 'ЗАКОП', 'ПОТОП', 'ПУПКА', 'ПОУКА', 'ПИКЕР', 'ПЕТКА', 'ШОШОН', 'ЗАМКА', 'ШЕЌЕР', 'ШУТКА', 'АТЛАС', 'ШАНКР', 'АЈВАН', 'АРСЕН', 'ТЕСТО', 'ТЕНИС', 'ТЕТКА', 'АМЕБА', 'СУРЛА', 'КОАЛА', 'СОНДА', 'СОКЛА', 'СОПКА', 'СЕКТА', 'СЕПСА', 'СТАДО', 'ЦУЦЛА', 'СУСАМ', 'СФЕРА', 'СКУША', 'СКИЦА', 'СЕМКА', 'ДУКАТ', 'ДЕКАН', 'ВИДЕО', 'ДОБОШ', 'ДРАМА', 'ДОГМА', 'ОТПАД', 'ДОКАЗ', 'ДАСКА', 'ДИРЕК', 'ЛИМЕС', 'МААЛО', 'МЕАНА', 'ДОЈКА', 'ПАПКА', 'ФИНТА', 'ФИТИЛ', 'БАКЛА', 'ГРИВА', 'ГАЈБА', 'ХОКЕЈ', 'ХАРФА', 'ЈАГНЕ', 'АТАКА', 'ОБРОК', 'ОМЛЕТ', 'КРУША', 'КОРКА', 'КУЧКА', 'КАФЕЗ', 'СТРЕА', 'КОПАН', 'ЛУДАК', 'ЛАМЈА', 'ЛУЗНА', 'ЛИТАР', 'ЛИМАР', 'ЛИКЕР', 'ИСКРА', 'ЗУРЛА', 'ЗЛОБА', 'ВРАТА', 'ВРСТА', 'ВРВЦА', 'ВИЗБА', 'ВОСОК', 'КОКОС', 'КИФЛА', 'ПЕРЕК', 'ВРАНА', 'ВОШКА', 'БИШКА', 'БАМЈА', 'БЛУЗА', 'БРАВА', 'БОИЦА', 'ПОЧВА', 'БИЛКА', 'НАФТА', 'СКРОБ', 'НОТЕС', 'НАБОР', 'ЏОЏОЛ', 'КОТЕЛ', 'МОПЕД', 'МИШКА', 'БРЕЗА', 'ХЕПАР', 'МАСОН', 'МАСКА', 'МЕТРО', 'ЛОКУМ', 'БОЦКА', 'МОЛБА', 'УЖИНА', 'УРИНА', 'МОЧКА', 'ПУЛПА', 'МОШУС', 'ШПАЈЗ', 'СТАЗА', 'ЕГЗИЛ', 'ЗЕНИТ', 'ЦИСТА'];
+var randNum = Math.floor(Math.random() * 141);
+var word = list[randNum];
+document.getElementsByClassName("letters")[0].children[0].innerHTML = "<h1>" + word[0].toUpperCase() + "</h1>";
+document.getElementsByClassName("letters")[0].children[0].style.background = "#39e600";
+var userWord;
+var theNode;
+var theClone;
+var wordObj = new Object();
+var userWordObj = new Object();
+var end;
+var input = 0;
+function game() {
+		userWord = document.getElementById("text").value;
+		if (userWord.length != 5){
+			alert("Зборот треба да содржи пет букви. Обидете се повторно!");
+		}
+        else if (userWord[0].toUpperCase() != word[0]){
+            alert("Зборот треба да почнува на буквата " + word[0] + ". Обидете се повторно!")
+        }
+		else if (input > 3) {
+			for (var i = 0; i < 5; i++) {  
+				document.getElementsByClassName("letters")[input].children[i].innerHTML = "<h1>" + userWord[i].toUpperCase() + "</h1>";
+				if (wordObj[word[i]]) {
+					wordObj[word[i]] = wordObj[word[i]] + 1;
+				}
+				else {
+					wordObj[word[i]] = 1;
+				}
+				if (userWordObj[userWord[i].toUpperCase()]) {
+					userWordObj[userWord[i].toUpperCase()] = userWordObj[userWord[i].toUpperCase()] + 1;
+				}
+				else {
+					userWordObj[userWord[i].toUpperCase()] = 1;
+				}
+			}
+			for (var i = 0; i < 5; i++) {  
+				if (userWord[i].toUpperCase() == word[i]){
+					document.getElementsByClassName("letters")[input].children[i].style.background = "#39e600";
+					wordObj[userWord[i].toUpperCase()] = wordObj[userWord[i].toUpperCase()] - 1;
+					userWordObj[userWord[i].toUpperCase] = userWordObj[userWord[i].toUpperCase()] - 1;
+					}
+			}
+			for (var i = 0; i < 5; i++) {		
+				if (word.indexOf(userWord[i].toUpperCase()) > -1 && wordObj[userWord[i].toUpperCase()] > 0 && userWord[i].toUpperCase() != word[i]) {
+					document.getElementsByClassName("letters")[input].children[i].style.background = "#ff471a";
+					wordObj[userWord[i].toUpperCase()] = wordObj[userWord[i].toUpperCase()] - 1;
+					userWordObj[userWord[i].toUpperCase] = userWordObj[userWord[i].toUpperCase()] - 1;
+				}
+			}
+			wordObj = new Object();
+			userWordObj = new Object();
+			if (userWord.toUpperCase() == word) {
+				setTimeout(function() {
+					end = confirm("Браво! Го погодивте бараниот збор. Дали сакате да започнете нова игра?");
+					if (end) {
+						randNum = Math.floor(Math.random() * 141);
+						word = list[randNum];
+						document.body.innerHTML = "\n<form class='form' onsubmit='game(); return false'>\n<label for='text'>Погоди го бараниот збор:&nbsp;</label>\n<input type='text' id='text' name='text'>\n<input type='Submit' value='Потврди' id = 'submit'>\n</form>\n<div class='letters'>\n<div class='letter'>\n<h1>" + word[0] + "</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n</div>\n</div>";
+						document.getElementsByClassName("letters")[0].children[0].style.background = "#39e600";
+					}
+					else{
+						document.body.innerHTML = "";
+						document.body.style.background = "url(http://wallup.net/wp-content/uploads/2015/07/funny-middle-finger-black-background-e1452102377183-736x459.jpg)";
+						document.body.style.backgroundSize = "cover";
+					}
+				}, 500);
+			}
+			else{
+				setTimeout(function() {
+					end = confirm("Не успеавте да го погодите бараниот збор — „" + word.toLowerCase() + "“. Дали сакате да започнете нова игра?");
+					if (end) {
+						randNum = Math.floor(Math.random() * 141);
+						word = list[randNum];
+						document.body.innerHTML = "\n<form class='form' onsubmit='game(); return false'>\n<label for='text'>Погоди го бараниот збор:&nbsp;</label>\n<input type='text' id='text' name='text'>\n<input type='Submit' value='Потврди' id = 'submit'>\n</form>\n<div class='letters'>\n<div class='letter'>\n<h1>" + word[0] + "</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n</div>\n</div>";
+						document.getElementsByClassName("letters")[0].children[0].style.background = "#39e600";
+					}
+					else{
+						document.body.innerHTML = "";
+						document.body.style.background = "url(http://wallup.net/wp-content/uploads/2015/07/funny-middle-finger-black-background-e1452102377183-736x459.jpg)";
+						document.body.style.backgroundSize = "cover";
+					}
+				}, 500);
+			}
+			input = 0;
+		}
+		else{
+            if (userWord.toUpperCase() == word) {
+            for (var i = 0; i < 5; i++) {  
+				document.getElementsByClassName("letters")[input].children[i].innerHTML = "<h1>" + userWord[i].toUpperCase() + "</h1>";
+				if (wordObj[word[i]]) {
+					wordObj[word[i]] = wordObj[word[i]] + 1;
+				}
+				else {
+					wordObj[word[i]] = 1;
+				}
+				if (userWordObj[userWord[i].toUpperCase()]) {
+					userWordObj[userWord[i].toUpperCase()] = userWordObj[userWord[i].toUpperCase()] + 1;
+				}
+				else {
+					userWordObj[userWord[i].toUpperCase()] = 1;
+				}
+			}
+			for (var i = 0; i < 5; i++) {  
+				if (userWord[i].toUpperCase() == word[i]){
+					document.getElementsByClassName("letters")[input].children[i].style.background = "#39e600";
+					wordObj[userWord[i].toUpperCase()] = wordObj[userWord[i].toUpperCase()] - 1;
+					userWordObj[userWord[i].toUpperCase] = userWordObj[userWord[i].toUpperCase()] - 1;
+					}
+			}
+			for (var i = 0; i < 5; i++) {		
+				if (word.indexOf(userWord[i].toUpperCase()) > -1 && wordObj[userWord[i].toUpperCase()] > 0 && userWord[i].toUpperCase() != word[i]) {
+					document.getElementsByClassName("letters")[input].children[i].style.background = "#ff471a";
+					wordObj[userWord[i].toUpperCase()] = wordObj[userWord[i].toUpperCase()] - 1;
+					userWordObj[userWord[i].toUpperCase] = userWordObj[userWord[i].toUpperCase()] - 1;
+				}
+			}
+			wordObj = new Object();
+			userWordObj = new Object();
+				setTimeout(function() {
+					end = confirm("Браво! Го погодивте бараниот збор. Дали сакате да започнете нова игра?");
+					if (end) {
+						randNum = Math.floor(Math.random() * 141);
+						word = list[randNum];
+						document.body.innerHTML = "\n<form class='form' onsubmit='game(); return false'>\n<label for='text'>Погоди го бараниот збор:&nbsp;</label>\n<input type='text' id='text' name='text'>\n<input type='Submit' value='Потврди' id = 'submit'>\n</form>\n<div class='letters'>\n<div class='letter'>\n<h1>" + word[0] + "</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n<div class='letter'>\n<h1>&nbsp;</h1>\n</div>\n</div>\n</div>";
+						document.getElementsByClassName("letters")[0].children[0].style.background = "#39e600";
+					}
+					else{
+						document.body.innerHTML = "";
+						document.body.style.background = "url(http://wallup.net/wp-content/uploads/2015/07/funny-middle-finger-black-background-e1452102377183-736x459.jpg)";
+						document.body.style.backgroundSize = "cover";
+					}
+				}, 500);
+                input = 0;
+			}
+            else {
+			theNode = document.getElementsByClassName("letters")[input];
+			theClone = theNode.cloneNode(true);
+			document.body.appendChild(theClone);
+			for (var i = 0; i < 5; i++) {  
+				document.getElementsByClassName("letters")[input].children[i].innerHTML = "<h1>" + userWord[i].toUpperCase() + "</h1>";
+				if (wordObj[word[i]]) {
+					wordObj[word[i]] = wordObj[word[i]] + 1;
+				}
+				else {
+					wordObj[word[i]] = 1;
+				}
+				if (userWordObj[userWord[i].toUpperCase()]) {
+					userWordObj[userWord[i].toUpperCase()] = userWordObj[userWord[i].toUpperCase()] + 1;
+				}
+				else {
+					userWordObj[userWord[i].toUpperCase()] = 1;
+				}
+			}
+			for (var i = 0; i < 5; i++) {  
+				if (userWord[i].toUpperCase() == word[i]){
+					document.getElementsByClassName("letters")[input].children[i].style.background = "#39e600";
+					wordObj[userWord[i].toUpperCase()] = wordObj[userWord[i].toUpperCase()] - 1;
+					userWordObj[userWord[i].toUpperCase] = userWordObj[userWord[i].toUpperCase()] - 1;
+					}
+			}
+			for (var i = 0; i < 5; i++) {		
+				if (word.indexOf(userWord[i].toUpperCase()) > -1 && wordObj[userWord[i].toUpperCase()] > 0 && userWord[i].toUpperCase() != word[i]) {
+					document.getElementsByClassName("letters")[input].children[i].style.background = "#ff471a";
+					wordObj[userWord[i].toUpperCase()] = wordObj[userWord[i].toUpperCase()] - 1;
+					userWordObj[userWord[i].toUpperCase] = userWordObj[userWord[i].toUpperCase()] - 1;
+				}
+			}
+			wordObj = new Object();
+			userWordObj = new Object();
+			input++;
+            }
+		}
+}
